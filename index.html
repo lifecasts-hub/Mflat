@@ -450,7 +450,7 @@ function fbApply(d,merge){fbMute=true;const U=(a,b)=>[...new Set([...(a||[]),...
 async function fbIn(){if(!FA)return toast("Connexion indisponible : vérifiez Internet puis relancez l'application");if(location.protocol==="file:")return fbPair();const pr=new firebase.auth.GoogleAuthProvider();pr.setCustomParameters({prompt:"select_account"});
  try{await FA.signInWithPopup(pr)}catch(e){if(/popup-blocked|operation-not-supported/.test(e.code||""))FA.signInWithRedirect(pr);else if(!/cancelled|closed/.test(e.code||""))toast("Connexion refusée : "+(e.code||""))}}
 // App (file://) : la connexion Google se fait sur le site. Code d'appairage dans pairings/{code} ; le site y dépose le idToken Google, l'app fait signInWithCredential puis supprime le document.
-const PAIR_URL="https://lifecasts-hub.github.io/lifecasts-hub-Mflat-/";let pairOff=null;
+const PAIR_URL="https://lifecasts-hub.github.io/Mflat/";let pairOff=null;
 async function fbPair(){try{const a=new Uint8Array(18);crypto.getRandomValues(a);const c=[...a].map(x=>x.toString(16).padStart(2,"0")).join("");
  toast("Ouverture de la connexion…");
  await Promise.race([FD.doc("pairings/"+c).set({at:Date.now()}),new Promise(r=>setTimeout(r,6000))]);localStorage.setItem("lc.pair",c);fbPairWait(c);
@@ -506,7 +506,7 @@ function close(){var d=document.getElementById("lcUp");if(d)d.remove()}
 function esc(s){return String(s||"").replace(/[&<>]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;"}[c]})}
 function idbPut(h){return new Promise(function(ok,ko){var r=indexedDB.open("lc-ota",1);r.onupgradeneeded=function(){r.result.createObjectStore("f")};r.onerror=ko;
   r.onsuccess=function(){var t=r.result.transaction("f","readwrite");t.objectStore("f").put(h,"html");t.oncomplete=ok;t.onerror=ko}})}
-var SRC="https://lifecasts-hub.github.io/lifecasts-hub-Mflat-/index.html";
+var SRC="https://lifecasts-hub.github.io/Mflat/index.html";
 async function check(manual){
   if(busy||!navigator.onLine)return;busy=true;last=Date.now();
   try{
