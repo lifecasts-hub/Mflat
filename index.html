@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <title>Mflat</title>
-<script>/*LC-OTA*/(function(){var B="0.3";window.LC_BUILT=B;
+<script>/*LC-OTA*/(function(){var B="0.4";window.LC_BUILT=B;
 function c(a,b){a=String(a).split(".");b=String(b).split(".");for(var i=0;i<Math.max(a.length,b.length);i++){var d=(+a[i]||0)-(+b[i]||0);if(d)return d>0?1:-1}return 0}window.LC_CMP=c;
 if(window.LC_OTA_VER){window.LC_VER=window.LC_OTA_VER;return}window.LC_VER=B;
 if(location.protocol!=="file:")return;
@@ -47,18 +47,14 @@ svg.f{fill:currentColor;stroke:none}
 .me{width:36px;height:36px;border-radius:50%;background:var(--fill);color:var(--mut);display:grid;place-items:center;overflow:hidden;font-weight:700;font-size:14px;flex:none}
 .me img{width:100%;height:100%;object-fit:cover}
 .ib{width:36px;height:36px;display:grid;place-items:center;border-radius:50%;background:var(--fill);color:var(--acc)}.ib .i{width:20px;height:20px}
-.chips{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding:0 16px 14px}
-.chips::-webkit-scrollbar{display:none}
-.chip{flex:none;padding:7px 15px;border-radius:18px;background:var(--fill);font-size:14px;font-weight:500}
-.chip[aria-pressed=true]{background:var(--ink);color:var(--bg)}
-/* raccourcis */
-.recents{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:0 16px}
-@media(min-width:700px){.recents{grid-template-columns:repeat(4,1fr)}}
-.rc{display:flex;align-items:center;gap:10px;background:var(--card);border-radius:10px;overflow:hidden;height:56px;text-align:left;font-size:13px;font-weight:600;padding-right:10px}
-.rc .cv{width:56px;border-radius:0}
+.chips{display:flex;margin:0 16px 18px;padding:2px;border-radius:10px;background:var(--fill)}
+.chip{flex:1;padding:6px 0;border-radius:8px;font-size:13px;font-weight:600;color:var(--sub,inherit);opacity:.75}
+.chip[aria-pressed=true]{background:var(--card);opacity:1;box-shadow:0 1px 4px rgba(0,0,0,.25)}
+.recents{display:flex;gap:12px;overflow-x:auto;padding:0 16px 4px;scrollbar-width:none;scroll-snap-type:x mandatory;scroll-padding:16px}
+.recents::-webkit-scrollbar{display:none}
+.rc{flex:none;width:118px;text-align:left;font-size:13px;font-weight:500;scroll-snap-align:start}
+.rc .cv{width:118px;height:118px;border-radius:12px;margin-bottom:6px}
 .rc>span:last-child{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;line-height:1.25}
-/* sections et vignettes */
-h2.s{font-size:20px;font-weight:700;margin:30px 16px 12px;letter-spacing:-.015em}
 .row{display:flex;gap:12px;overflow-x:auto;padding:0 16px;scrollbar-width:none;scroll-snap-type:x mandatory;scroll-padding:16px}
 .row::-webkit-scrollbar{display:none}
 .tile{flex:0 0 148px;width:148px;scroll-snap-align:start;text-align:left;display:flex;flex-direction:column}
@@ -297,7 +293,7 @@ function view(){const v=ST[tab][ST[tab].length-1],bk=`<button class="bk" id="bkB
  if(tab==="home"){const rec=[...new Set(S.rec.map(TR).filter(Boolean).map(t=>t.al))].map(AL).filter(a=>a.a),grid=[{fav:1},...S.pls.map(p=>({pl:p})),...rec.map(a=>({al:a})),...C.al.map(a=>({al:a}))];
   const seen=new Set(),g=grid.filter(x=>{const k=x.fav?"f":x.pl?"p"+x.pl.id:"a"+x.al.id;if(seen.has(k))return 0;seen.add(k);return 1}).slice(0,8);
   return hdr("Accueil","",1)+`<div class="chips">${[["all","Tout"],["music","Musique"],["pl","Playlists"]].map(c=>`<button class="chip" data-hf="${c[0]}" aria-pressed="${hf===c[0]}">${c[1]}</button>`).join("")}</div>`
-   +(hf!=="pl"?`<div class="recents">${g.map(x=>x.fav?`<button class="rc" data-go="fav:"><span class="cv lk">${I("heart","f")}</span><span>Titres likés</span></button>`:x.pl?`<button class="rc" data-go="pl:${esc(x.pl.id)}">${cv(x.pl)}<span>${esc(x.pl.n)}</span></button>`:`<button class="rc" data-go="al:${esc(x.al.id)}">${cv(x.al)}<span>${esc(x.al.n)}</span></button>`).join("")}</div>`
+   +(hf!=="pl"?sec("Écoutés récemment",`<div class="recents">${g.map(x=>x.fav?`<button class="rc" data-go="fav:"><span class="cv lk">${I("heart","f")}</span><span>Titres likés</span></button>`:x.pl?`<button class="rc" data-go="pl:${esc(x.pl.id)}">${cv(x.pl)}<span>${esc(x.pl.n)}</span></button>`:`<button class="rc" data-go="al:${esc(x.al.id)}">${cv(x.al)}<span>${esc(x.al.n)}</span></button>`).join("")}</div>`)
     +sec("Conçu pour vous",`<div class="row">${C.al.map(alTile).join("")}</div>`)
     +sec("Nouvelles sorties",`<div class="row">${[...C.al].sort((a,b)=>(b.y||0)-(a.y||0)).map(alTile).join("")}</div>`)
     +sec("Artistes populaires",`<div class="row">${C.ar.map(arTile).join("")}</div>`)
