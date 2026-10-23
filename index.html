@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <title>Mflat</title>
-<script>/*LC-OTA*/(function(){var B="0.2";window.LC_BUILT=B;
+<script>/*LC-OTA*/(function(){var B="0.3";window.LC_BUILT=B;
 function c(a,b){a=String(a).split(".");b=String(b).split(".");for(var i=0;i<Math.max(a.length,b.length);i++){var d=(+a[i]||0)-(+b[i]||0);if(d)return d>0?1:-1}return 0}window.LC_CMP=c;
 if(window.LC_OTA_VER){window.LC_VER=window.LC_OTA_VER;return}window.LC_VER=B;
 if(location.protocol!=="file:")return;
@@ -53,6 +53,8 @@ h2.s .i{width:18px;height:18px;color:var(--mut)}
 .cv{position:relative;aspect-ratio:1;border-radius:10px;overflow:hidden;box-shadow:var(--sh);display:block;width:100%}
 .cv i{position:absolute;inset:auto 10px 10px;color:#fff;font-style:normal;font-weight:800;font-size:15px;line-height:1.1;text-shadow:0 1px 8px rgba(0,0,0,.35)}
 .cv.r{border-radius:50%}
+.cv.e{background:linear-gradient(#48484c,#2c2c2e);color:#8e8e93;display:grid;place-items:center;box-shadow:none}.cv.e>.i{width:42%;height:42%}.cv.e>b{font-size:clamp(14px,30cqw,44px);font-weight:600;container-type:normal}
+:root[data-theme=light] .cv.e{background:linear-gradient(#e9e9ee,#d6d6dc);color:#a1a1a6}
 .tile.big .cv{aspect-ratio:4/3}
 .list{margin:0 20px}
 .li{display:flex;align-items:center;gap:12px;width:100%;padding:8px 0;text-align:left;border-bottom:.5px solid var(--line)}
@@ -74,6 +76,7 @@ h2.s .i{width:18px;height:18px;color:var(--mut)}
 .hero b{font-size:18px}.hero small{opacity:.85;font-size:15px;margin-top:2px}
 .hero.a{background:linear-gradient(160deg,#8b6bff,#5b3fe0)}
 .det{display:flex;flex-direction:column;align-items:center;text-align:center;padding:0 20px}
+.det .cv.e>b{font-size:64px}.tile .cv.r.e>b{font-size:40px}.li .cv.e>b{font-size:16px}
 .det .cv{width:min(64vw,270px);margin-top:6px}
 .det h1{font-size:22px;margin:16px 0 2px}
 .det p{margin:0;color:var(--acc);font-size:18px}
@@ -231,7 +234,7 @@ async function audioUrl(t){if(t.src)return t.src;if(!t.path)return "";if(urlCach
 // Pochettes : image si fournie, sinon dégradé généré.
 function hsh(s){let h=0;for(const c of String(s))h=(h*31+c.charCodeAt(0))|0;return Math.abs(h)}
 function grad(s){const h=hsh(s),a=h%360,b=(a+50+h%90)%360,c=(a+200)%360;return `radial-gradient(circle at ${20+h%50}% ${15+h%40}%,hsl(${b} 90% 65%),transparent 55%),radial-gradient(circle at ${70-h%30}% 85%,hsl(${c} 85% 55%),transparent 60%),linear-gradient(135deg,hsl(${a} 75% 45%),hsl(${(a+30)%360} 70% 25%))`}
-function cv(o,lbl,r){const img=o&&o.cov?`url("${esc(o.cov)}") center/cover,`:"";return `<span class="cv${r?" r":""}" style='background:${img}${grad(o?o.id+(o.n||o.t||""):"x")}'>${lbl&&!img?`<i>${esc(lbl)}</i>`:""}</span>`}
+function cv(o,lbl,r){if(o&&o.cov)return `<span class="cv${r?" r":""}" style='background:url("${esc(o.cov)}") center/cover'></span>`;return `<span class="cv e${r?" r":""}">${r?`<b>${esc(ini(o&&o.n||"?"))}</b>`:I("note")}</span>`}
 const trCv=t=>cv(AL(t.al).id?Object.assign({},AL(t.al)):t,"");
 const fmt=s=>{s=Math.max(0,Math.floor(s||0));return Math.floor(s/60)+":"+String(s%60).padStart(2,"0")};
 
@@ -326,7 +329,7 @@ function openNp(){drawNp();q("np").classList.add("on");history.pushState({np:1},
 function closeNp(){q("np").classList.remove("on")}
 addEventListener("popstate",()=>{if(q("np").classList.contains("on"))closeNp()});
 function drawNp(){const n=q("np");n.classList.toggle("e",!cur);if(!cur){n.innerHTML=`<button class="gr" id="npX" aria-label="Fermer"></button><span class="ph">${I("note")}</span><div class="meta"><span><b>À l'arrêt</b></span></div><div class="bar"><input type="range" disabled value="0"><div><span>--:--</span><span>--:--</span></div></div><div class="ctl"><button>${I("prev","f")}</button><button class="pp" id="npT">${I("play","f")}</button><button>${I("next","f")}</button></div>${VOL()}<div class="ex"><button>${I("quote")}</button><button>${I("air")}</button><button>${I("list")}</button></div>`;volB();return}const al=AL(cur.al),f=S.fav.includes(cur.id);n.classList.toggle("pa",!playing());
- n.innerHTML=`<div id="npBg" style='background:${grad(al.id?al.id+(al.n||""):cur.id+cur.t)}'></div><button class="gr" id="npX" aria-label="Fermer"></button>${trCv(cur)}
+ n.innerHTML=`<div id="npBg" style='background:${al.cov?`url("${esc(al.cov)}") center/cover`:"linear-gradient(#5b5b60,#2e2e31)"}'></div><button class="gr" id="npX" aria-label="Fermer"></button>${trCv(cur)}
  <div class="meta"><span><b>${esc(cur.t)}</b><small>${esc(AR(cur.a).n)}</small></span><button class="rb" id="npF" aria-label="Favori">${I("heart",f?"f":"")}</button><button class="rb" id="npM" aria-label="Options">${I("more")}</button></div>
  <div class="bar"><input id="npR" type="range" min="0" step="1" aria-label="Position"><div><span id="npA">0:00</span><span id="npB">-0:00</span></div></div>
  <div class="ctl"><button id="npP" aria-label="Précédent">${I("prev","f")}</button><button class="pp" id="npT" aria-label="Lecture/pause">${I(playing()?"pause":"play","f")}</button><button id="npN" aria-label="Suivant">${I("next","f")}</button></div>
