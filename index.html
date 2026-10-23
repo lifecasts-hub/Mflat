@@ -47,9 +47,10 @@ svg.f{fill:currentColor;stroke:none}
 .me{width:36px;height:36px;border-radius:50%;background:var(--fill);color:var(--mut);display:grid;place-items:center;overflow:hidden;font-weight:700;font-size:14px;flex:none}
 .me img{width:100%;height:100%;object-fit:cover}
 .ib{width:36px;height:36px;display:grid;place-items:center;border-radius:50%;background:var(--fill);color:var(--acc)}.ib .i{width:20px;height:20px}
-.chips{display:flex;margin:0 16px 18px;padding:2px;border-radius:10px;background:var(--fill)}
-.chip{flex:1;padding:6px 0;border-radius:8px;font-size:13px;font-weight:600;color:var(--sub,inherit);opacity:.75}
-.chip[aria-pressed=true]{background:var(--card);opacity:1;box-shadow:0 1px 4px rgba(0,0,0,.25)}
+.chips{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding:0 16px 14px}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:none;padding:7px 15px;border-radius:18px;background:var(--fill);font-size:14px;font-weight:500}
+.chip[aria-pressed=true]{background:var(--ink);color:var(--bg)}
 .recents{display:flex;gap:12px;overflow-x:auto;padding:0 16px 4px;scrollbar-width:none;scroll-snap-type:x mandatory;scroll-padding:16px}
 .recents::-webkit-scrollbar{display:none}
 .rc{flex:none;width:118px;text-align:left;font-size:13px;font-weight:500;scroll-snap-align:start}
